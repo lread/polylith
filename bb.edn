@@ -25,4 +25,32 @@
 
   poly-local {:doc "Installs the poly tool locally"
               :depends [jar]
-              :task (shell "sudo cp projects/poly/target/poly.jar /usr/local/polylith/poly.jar")}}}
+              :task (shell "sudo cp projects/poly/target/poly.jar /usr/local/polylith/poly.jar")}
+
+  poly-jar {:doc "Builds poly jar, if needed"
+            :requires [poly-jar]
+            :task (poly-jar/build "poly")}
+
+  polyx-jar {:doc "Builds polyx jar, if needed"
+             :requires [poly-jar]
+             :task (poly-jar/build "polyx")}
+
+  help-txt {:doc "Generates doc text files via poly help command"
+            :depends [poly-jar]
+            :requires [help]
+            :task (help/help)}
+
+  help-doc {:doc "Assembles doc text into doc/commands.adoc"
+            :requires [help]
+            :task (help/update-command-doc)}
+
+  update-commands-doc {:doc "Run help-txt then help-doc"
+                       :depends [help-txt help-doc]}
+
+  create-example {:doc "Creates and exercises examples workspaces (also generates some doc images and doc code blocks)"
+                  :depends [poly-jar polyx-jar]
+                  :requires [create-example]
+                  :task (create-example/main)}
+
+  gen-all {:doc "Run all generation tasks"
+           :depends [update-commands-doc create-example]}}}
