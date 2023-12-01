@@ -2,24 +2,27 @@
 :cljdoc-api-url: https://cljdoc.org/d/polylith/clj-poly/CURRENT/api
 :cljdoc-doc-url: https://cljdoc.org/d/polylith/clj-poly/CURRENT/doc
 
-The polylith repository has a continuous integration and deployment setup via https://circleci.com[CircleCI].
-The setup has a workflow for validation, testing, and deployment.
-The workflow has several jobs that validate, test, and deploy the artifacts to https://clojars.org/search?q=polylith[Clojars], https://cljdoc.org/versions/polylith/clj-poly[cljdoc], and GitHub as https://github.com/polyfy/polylith/releases[releases].
+NOTE: This document talks specifically about how we've set up continuous integration for the https://github.com/polyfy/polylith[polylith repository].
 
-You can find the CircleCI configuration file link:../.circleci/config.yml[here].
+We use https://circleci.com[CircleCI] for our continuous integration server, which coordinates validation, testing, and deployment workflows.
+It:
+
+* deploys artifacts to https://clojars.org/search?q=polylith[Clojars]
+* triggers doc building on https://cljdoc.org/versions/polylith/clj-poly[cljdoc]
+* and publishes releases to https://github.com/polyfy/polylith/releases[GitHub]
+
+See our link:/.circleci/config.yml[CircleCI configuration file] for details.
 
 [#releases]
 == Releases
 
-A https://github.com/polyfy/polylith/releases[release] is triggered when a commit is pushed to master, often a squashed branch that fixes/implements an https://github.com/polyfy/polylith/issues[issue].
-If SNAPSHOT is included in the version name, then it becomes a
-https://github.com/polyfy/polylith/blob/779d0815fb3fbb7dac0a278448926711a7efa82c/components/version/src/polylith/clj/core/version/interface.clj#L26[snapshot] release, otherwise a "final" release.
+https://github.com/polyfy/polylith/issues[Issues] are addressed in https://github.com/polyfy/polylith/pulls[pull requests].
+Pull requests are reviewed, approved, and then squashed to a commit to master.
+Each commit to master triggers a release.
 
-{nbsp} +
+As you might have guessed, a `SNAPSHOT` https://github.com/polyfy/polylith/blob/15453ebc5a86f52ee1c75ec52ebb19da4b113c30/components/version/src/polylith/clj/core/version/interface.clj#L27[revisions] creates a snapshot release; all other revisions are considered final releases.
 
 image::images/polylith-ci-setup/release-timeline.png[]
-
-{nbsp} +
 
 === Final release
 
